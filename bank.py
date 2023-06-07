@@ -315,8 +315,206 @@ def create_new_user(full_name, balance, gender, city, phone_numer):
     set_data(users) 
     display_account_information_by_given_account_number(account_number)
     
+    
+
+# Busqueda de cuenta    
+
+def search_account (field, query):
+
+    """
+    busqueda de query en
+    """
+    users = get_users_as_list()
+    users = heap_sort(users, field)
+    index = text_binary_search(user,field,query)
+    if index == -1:
+        print("__________error______________")
+        print("no se encontro", query)
+    else:
+        user = users.index(index)
+        display_user_object(users, user["account_number"])
+
+
+# Borrar cuenta
+
+
+def delete_account(account_number):
+
+
+    """
+    borrrar cuenta si existe , mostar si sale error
+    
+    """
+    users = get_data()
+    if account_number not in users:
+        print("si no encuentra numero de cuenta: " + account_number) 
+        return
+    del users[account_number]
+    set_data(users)
+    print("numero de cuenta", account_number, "Mover")
 
     
+# Erramientas interface
+def clean_terminal_screen():
+
+    """
+    Cleans the terminal screen by performing a system
+    clear command. Cls on windows and Clear on UNIX ones.
+
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def print_horizontal_line():
+    """
+    decorar la linea
+    """
+
+    print("_______________________________")
+
+# menu de usuario
+                      
+def display_account_information_by_given_account_number(account_number):
+    """
+    menu de informacion
+
+    """
+
+    users = get_data()
+    user = users[account_number]
+    display_user_object(user, account_number)
+
+
+def display_user_object(user_object, account_number):
+
+    """
+    menu de los objetos.
+    """
+    print_horizontal_line()
+    print("Nombre Completo: ", user_object["Nombre Completo"])
+    print("Numero de cuenta: ", account_number)
+    print("fecha Creacion:  ", user_object["Ceunta Creacion fecha"])
+    print("saldo:          ",        user_object["saldo"])
+    print("Genero:         ", user_object["Nombre Completo"])
+    print("ciudad:         ", user_object["ciudad"])
+    print("Tefono          ", user_object["numero de telefono"])
+
+def display_all_accounts_sorted_by(field):
+    """
+    usuarios desp del otro
+    """
+
+    users = get_users_as_list()
+    users = heap_sort(users, field)
+    clean_terminal_screen()
+    for i in range(0, users.size()):
+        user = users.index(i)
+        display_user_object(user, user["Numero de cuenta"])
+
+
+def beatify_field_name(field):
+    if field == "nombre completo":
+        return "nombre completo"
+    if field == "creacion fecha":
+        return "creacion fecha"
+    if field == "cuidad":
+        return "ciudad"
+    if field == "Genero":
+        return "Genero"
+    if field == "numero de telefono":
+        return "numero de telefono"
+    return "unknown"
+
+
+def ask_user_what_field_to_sort_the_display_by():
+    """
+    mostar menu
+    """
+
+    print("sorting by: ")
+    print_horizontal_line()
+    print("► 1. Nombre completo ")
+    print_horizontal_line()
+    print("► 2. Genero ")
+    print_horizontal_line()
+    print("► 3. Ciudad ")
+    print_horizontal_line()
+    print("► 4. Numero de Telefono ")
+    print_horizontal_line()
+    print("► 5. fecha de creacion ")
+    print_horizontal_line()
+    print("► 6. numero de cuenta ")
+    print_horizontal_line()
+    print()
+    comand = input(" Opcion: ")
+    if comand == "1":
+        return "Nombre completo"
+    if comand == "2":
+        return "genero"
+    if comand == "3":
+        return "ciudad"
+    if comand == "4":
+        return "numero de telefono"
+    if comand == "5":
+        return "creacion de cuenta fecha"
+    if comand == "6":
+        return "numero de cuenta"
+    return " Nombre completo"
+
+# ----- Menu -------
+
+
+def display_menu():
+
+    """
+    da la bienvenida al menu
+
+    """
+
+    clean_terminal_screen()
+
+    print()
+
+    print("  ┌────────────────┐  ╭───────────────────────╮           ")
+    print("  │  ╭┼┼╮          │  │ ▶︎ 1 • Crear Cuenta   │           ")
+    print("  │  ╰┼┼╮          │  ├───────────────────────┴─────╮     ")
+    print("  │  ╰┼┼╯          │  │ ▶︎ 2 • Transacion           │     ")
+    print("  │                │  ├────────────────────────────┬╯     ")
+    print("  │  D R A G O N   │  │ ▶︎ 3 • Actualizar    cuenta  │      ")
+    print("  │  B A N K       │  ├───────────────────────┬────╯      ")
+    print("  │                │  │ ▶︎ 4 • Borrar cuenta   │           ")
+    print("  │                │  ├───────────────────────┴────╮      ")
+    print("  │                │  │ ▶︎ 5 • Buscar info cuenta   │      ")
+    print("  │                │  ├────────────────────────────┴╮     ")
+    print("  │ ║│┃┃║║│┃║│║┃│  │  │ ▶︎ 6 • ver lista de cliente  │     ")
+    print("  │ ║│┃┃║║│┃║│║┃│  │  ├────────────────────┬────────╯     ")
+    print("  │                │  │ ▶︎ 7 • Salir sistema  │              ")
+    print("  └────────────────┘  ╰────────────────────╯              ")
     
+    user_choicre = int(input("\n ☞ ingrese comando: "))
+
+    clean_terminal_screen()
+
+    if user_choice == 1:
+        print("Crear un nuevo usuario  ")
+        user_name = input("Nombre completo")
+        balance = float(input("Saldo: "))
+        gender = input("Genero: ")
+        city = input ("Ciudad de residencia: ")
+        phone_number = input(" Numero de Telefono:  ")
+        create_new_user(user_name, balance, gender, city, phone_number)
+
+
+#aqui voy
+
+
+
+
+
+
+
+
+
+
+
 
 
